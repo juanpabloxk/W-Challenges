@@ -1,5 +1,15 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: job_applications
+#
+#  id             :bigint           not null, primary key
+#  opportunity_id :bigint           not null
+#  job_seeker_id  :bigint           not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#
 # Stores a job application for a job opportunity
 # connects a job seeker to a job opportunity
 class JobApplication < ApplicationRecord
