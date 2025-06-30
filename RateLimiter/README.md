@@ -12,3 +12,8 @@ This is a simple rate limiter implementation that uses a sliding window to track
 
 - `Hash.reject!` time complexity is O(n), where n is the number of elements in the hash.
 - The time complexity of the `allow_request?` method is O(1), since it only involves a hash lookup and insertion.
+
+## Dependencies
+
+- **Ruby** (3.1+)
+- **RSpec** (for testing)
