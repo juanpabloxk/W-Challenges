@@ -11,5 +11,6 @@
 FactoryBot.define do
   factory :client do
     name { Faker::Company.name }
+    email { Faker::Internet.email }
   end
 end

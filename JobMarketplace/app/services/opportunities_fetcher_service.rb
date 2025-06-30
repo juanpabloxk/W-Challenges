@@ -12,7 +12,7 @@ class OpportunitiesFetcherService < ApplicationService
   def call
     cache_key = "opportunities-#{@params[:query]}-#{@params[:page]}-#{@per_page}"
 
-    Rails.cache.fetch(cache_key, expires_in: 2.seconds) do
+    Rails.cache.fetch(cache_key, expires_in: 15.minutes) do
       scope = Opportunity.includes(:client)
       if @params[:query].present?
         scope = scope.where("title ILIKE :query", query: "%#{@params[:query]}%")
