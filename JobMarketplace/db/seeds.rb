@@ -7,7 +7,7 @@ Faker::Config.random = Random.new(42)
 
 # Sample clients
 10.times do
-  Client.find_or_create_by!(name: Faker::Company.name)
+  Client.find_or_create_by!(name: Faker::Company.name, email: Faker::Internet.email)
 end
 
 # Sample opportunities

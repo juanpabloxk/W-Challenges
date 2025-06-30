@@ -8,10 +8,11 @@
 #  name       :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  email      :string
 #
-# Stores a client who can post job opportunities
 class Client < ApplicationRecord
   has_many :opportunities, dependent: :destroy, inverse_of: :client
 
   validates :name, presence: true
+  validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
 end

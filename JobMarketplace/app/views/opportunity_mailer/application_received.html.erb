@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h2>New Application for <%= @opportunity.title %></h2>
+    <p>Hello <%= @client.name %>,</p>
+    <p>
+      A new job seeker has applied for the position of <strong><%= @opportunity.title %></strong>.
+    </p>
+
+    <h3>Applicant Details</h3>
+    <ul>
+      <li><strong>Name:</strong> <%= @job_seeker.name %></li>
+      <li><strong>Email:</strong> <%= @job_seeker.email %></li>
+    </ul>
+
+    <p>Thanks for using our service!</p>
+  </body>
+</html>
