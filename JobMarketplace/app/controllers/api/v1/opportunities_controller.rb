@@ -1,21 +1,7 @@
 class Api::V1::OpportunitiesController < ApplicationController
   def index
-    cache_key = "opportunities-#{params[:query]}-#{params[:page]}"
-
-    cached_data = Rails.cache.fetch(cache_key, expires_in: 15.minutes) do
-      scope = Opportunity.includes(:client)
-      if params[:query].present?
-        scope = scope.where("title ILIKE ?", "%#{params[:query]}%")
-      end
-
-      pagy, opportunities = pagy(scope, items: 10)
-      {
-        opportunities: opportunities.as_json(include: { client: { only: [:id, :name] } }),
-        pagy: pagy.as_json
-      }
-    end
-
-    render json: cached_data
+    opportunities_data = OpportunitiesFetcherService.new(params).call
+    render json: opportunities_data
   end
 
   def create
@@ -30,10 +16,9 @@ class Api::V1::OpportunitiesController < ApplicationController
 
   def apply
     opportunity = Opportunity.find(params[:id])
-    job_application = opportunity.job_applications.build(job_application_params)
+    job_application = OpportunityApplierService.new(opportunity, job_application_params).call
 
-    if job_application.save
-      JobApplicationNotificationJob.perform_later(job_application)
+    if job_application.persisted?
       render json: { message: "Application successful! Your application is being processed." }, status: :created
     else
       render json: { errors: job_application.errors.full_messages }, status: :unprocessable_entity
@@ -47,6 +32,6 @@ class Api::V1::OpportunitiesController < ApplicationController
   end
 
   def job_application_params
-    params.require(:job_application).permit(:job_seeker_id)
+    params.require(:job_application).permit(:job_seeker_name, :job_seeker_email)
   end
 end
